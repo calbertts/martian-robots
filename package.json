@@ -1,0 +1,34 @@
+{
+  "name": "martian-robots",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc --reporter text-summary mocha ./test",
+    "lint": "eslint .",
+    "coverage": "nyc report --reporter lcov --reporter html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/calbertts/martian-robots.git"
+  },
+  "keywords": [
+    "martian",
+    "robots"
+  ],
+  "author": "calbertts",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/calbertts/martian-robots/issues"
+  },
+  "homepage": "https://github.com/calbertts/martian-robots#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^7.12.0",
+    "eslint-config-imperative": "^3.0.0",
+    "eslint-plugin-imperative": "^3.0.0",
+    "mocha": "^8.2.0",
+    "nyc": "^15.1.0",
+    "sinon": "^9.2.0"
+  }
+}

@@ -1,0 +1,15 @@
+1. Mars surface
+   N x N (max 50x50)
+
+2. Input  -> movement
+   Output -> position
+
+3. Robot position
+   x, y, z (orientation, N,S,E,W) -> 1 4 E
+
+4. Instruction
+   L -> Left     : turns on the left and remains same position
+   R -> Right    : turns on the right and remains same position
+   F -> Forward  : moves one grid, remain same orientation
+
+   Max length: 100
