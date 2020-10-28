@@ -2,8 +2,8 @@ const { once, EventEmitter } = require('events');
 const events                 = require('./events')
 
 class Robot {
-  #messenger
-  #isLost = false;
+  messenger
+  isLost = false;
 
   constructor(robotInfo, messenger) {
     const { x, y, orientation } = this._getParts(robotInfo);
@@ -11,7 +11,7 @@ class Robot {
     this.x           = Number(x);
     this.y           = Number(y);
     this.orientation = orientation;
-    this.#messenger  = messenger;
+    this.messenger  = messenger;
   }
 
   _getParts(robotInfo) {
@@ -33,10 +33,10 @@ class Robot {
   }
 
   async move(instructions) {
-    const movements = instructions.getMovements(this);
+    const movements = instructions.getMovements(this.orientation);
 
     for (let move of movements) {
-      if (this.#isLost) {
+      if (this.isLost) {
         break;
       }
 
@@ -59,25 +59,27 @@ class Robot {
       this.y           = possibleMovement.y;
       this.orientation = move.o;
     }
+
+    this.messenger.emit(events.MOVEMENTS_FINISHED);
   }
 
   async _canIMove(possibleMovement) {
     process.nextTick(() => {
-      this.#messenger.emit(events.TRY_MOVE, possibleMovement);
+      this.messenger.emit(events.TRY_MOVE, possibleMovement);
     });
-    return await once(this.#messenger, events.MOVE_FEEDBACK);
+    return await once(this.messenger, events.MOVE_FEEDBACK);
   }
 
   lost(possibleMovement) {
     this.lastX = this.x;
     this.lastY = this.y;
-    this.#isLost = true;
+    this.isLost = true;
 
-    this.#messenger.emit(events.IM_LOST, possibleMovement);
+    this.messenger.emit(events.IM_LOST, possibleMovement);
   }
 
   toString() {
-    return `${this.lastX || this.x} ${this.lastY || this.y} ${this.orientation} ${this.#isLost ? 'LOST' : ''}`.trim();
+    return `${this.lastX || this.x} ${this.lastY || this.y} ${this.orientation} ${this.isLost ? 'LOST' : ''}`.trim();
   }
 }
 

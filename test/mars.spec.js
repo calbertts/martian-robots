@@ -5,7 +5,17 @@ const events                 = require('../src/events')
 
 describe('Mars Tests Suite', () => {
   const messenger = new EventEmitter();
-  const mars = new Mars({x: 3, y: 5, messenger});
+  const mars = new Mars({w: 3, h: 5, messenger});
+
+  it('should fail mars creation because of bad syntax', () => {
+    expect(() => {
+      new Mars({w: 'a', x: 'b'}, messenger);
+    }).to.throw();
+
+    expect(() => {
+      new Mars({w: -1, x: 0}, messenger);
+    }).to.throw();
+  })
 
   it ('should try movement without lose it', async () => {
     process.nextTick(() => {

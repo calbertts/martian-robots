@@ -1,5 +1,4 @@
-const { once, EventEmitter } = require('events');
-const events = require('./src/events')
+/*const events = require('./src/events')
 
 class Mars {
   constructor({x, y, messenger}) {
@@ -175,4 +174,4 @@ class Instructions {
   console.log(robot.toString())
   console.log(robot2.toString())
   console.log(robot3.toString())
-})();
+})();*/

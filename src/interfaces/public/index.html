@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <style>
+      .content {
+
+      }
+    </style>
+    <script type="text/javascript">
+      function start() {
+        const source = new EventSource('/events');
+
+        source.addEventListener('message', message => {
+          console.log('Got', message);
+
+          // Display the event data in the `content` div
+          document.querySelector('#logs').innerHTML += event.data + '\n';
+        });
+
+        setTimeout(() => {
+          var url = '/start';
+          var data = {username: 'example'};
+
+          fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers:{
+              'Content-Type': 'application/json'
+            }
+          }).then(res => res.json())
+          .catch(error => console.error('Error:', error))
+          .then(response => console.log('Success:', response));
+        }, 500)
+      }
+    </script>
+  </head>
+  <body>
+    <div class="content">
+      <textarea name="textarea" rows="10" cols="50" placeholder="Enter the instructions here"></textarea>
+    </div>
+    <div class="logger">
+      <textarea id="logs" rows="10" cols="50" readonly placeholder="Log events"></textarea>
+    </div>
+    <button onclick="start()">START</button>
+  </body>
+</html>

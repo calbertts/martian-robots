@@ -1,9 +1,13 @@
 const events = require('./events')
 
 class Mars {
-  constructor({x, y, messenger}) {
-    this.maxX = x+1;
-    this.maxY = y+1;
+  constructor({w, h, messenger}) {
+    if (isNaN(w) || isNaN(h) || Number(w) <= 0 || Number(h) <= 0) {
+      throw new Error(`Mars size must be positive numbers like (w, h): 4 5, actual: "${w} ${h}"`)
+    }
+
+    this.maxX = w+1;
+    this.maxY = h+1;
     this.scents = [];
     this.messenger = messenger;
 
