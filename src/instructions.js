@@ -20,12 +20,12 @@ class Instructions {
         N: {o: 'N', x: 0,  y: 1},
         W: {o: 'W', x: -1, y: 0},
         E: {o: 'E', x: 1,  y: 0},
-      }
+      },
     };
 
     instructionsInfo = instructionsInfo.trim();
     if (instructionsInfo.replace(/L|F|R/g, '').length > 0 || instructionsInfo.length > this.MAX_INSTRUCTIONS) {
-      throw new Error(`Wrong instruction syntax, should be L, R or F and less than 100 chars, actual: ${instructionsInfo}`)
+      throw new Error(`Wrong instruction syntax, should be L, R or F and less than 100 chars, actual: ${instructionsInfo}`);
     }
 
     this.instructionsInfo = instructionsInfo;

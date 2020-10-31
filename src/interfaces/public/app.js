@@ -12,35 +12,21 @@ function log(msg) {
   logs.scrollTop = logs.scrollHeight;
 }
 
+function event(source, event, callback) {
+  source.addEventListener(events[event], e => {
+    callback(JSON.parse(e.data));
+  });
+}
+
 function listen(mars) {
   const source = new EventSource('/events');
+  const ev = event.bind(null, source);
 
-  source.addEventListener(events.IM_LOST, event => {
-    const {x, y} = JSON.parse(event.data);
-    log(`Robot lost at (${x}, ${y})`);
-  });
-
-  source.addEventListener(events.TRY_MOVE, event => {
-    const {x, y} = JSON.parse(event.data);
-    log(`Trying to move to (${x}, ${y})`);
-  });
-
-  source.addEventListener(events.MOVED, event => {
-    const robots = JSON.parse(event.data);
-    draw(gridData(mars, robots));
-  });
-
-  source.addEventListener(events.MOVE_FEEDBACK, event => {
-    const {shouldLost, shouldSkip} = JSON.parse(event.data);
-    if (shouldSkip) {
-      log('Skiping a scent! :)');
-    }
-  });
-
-  source.addEventListener(events.MOVEMENTS_FINISHED, event => {
-    const robots = JSON.parse(event.data).join('\n');
-    log(`Robot movements finished\n\nRESULTS:\n\n${robots}.\n`);
-  });
+  ev(events.IM_LOST, ({x, y})                         => log(`Robot lost at (${x}, ${y})`));
+  ev(events.TRY_MOVE, ({x, y})                        => log(`Trying to move to (${x}, ${y})`));
+  ev(events.MOVED, robots                             => draw(gridData(mars, robots)));
+  ev(events.MOVE_FEEDBACK, ({shouldLost, shouldSkip}) => shouldSkip ? log('Skiping a scent! :)'):'');
+  ev(events.MOVEMENTS_FINISHED, robots                => log(`Robot movements finished\n\nRESULTS:\n\n${robots.join('\n')}.\n`));
 }
 
 function start() {
@@ -75,10 +61,13 @@ function start() {
       listen(mars);
       draw(gridData(mars, robots));
     } catch(err) {
-      const error = await err.json();
-      alert(error.message)
+      try {
+        err = await err.json();
+      } finally {
+        alert(err);
+      }
     }
-  }, 500)
+  }, 500);
 }
 
 function gridData(mars, robots) {
@@ -129,9 +118,7 @@ function draw(gridData) {
   }
 
   grid = d3.select('.grid')
-    .append('svg')
-    .attr('width', '620px')
-    .attr('height', '620px'); 
+    .append('svg').attr('width', '620px').attr('height', '620px'); 
 
   const row = grid.selectAll('.row')
     .data(gridData).enter().append('g').attr('class', 'row');

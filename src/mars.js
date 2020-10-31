@@ -1,9 +1,9 @@
-const events = require('./events')
+const events = require('./events');
 
 class Mars {
   constructor({w, h, messenger}) {
     if (isNaN(w) || isNaN(h) || Number(w) <= 0 || Number(h) <= 0) {
-      throw new Error(`Mars size must be positive numbers like (w, h): 4 5, actual: "${w} ${h}"`)
+      throw new Error(`Mars size must be positive numbers like (w, h): 4 5, actual: "${w} ${h}"`);
     }
 
     this.maxX = w+1;
