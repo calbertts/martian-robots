@@ -27,9 +27,9 @@ const Runner       = require('../runner');
   });
 
   try {
-    const END                   = 'END';
-    const messenger             = new EventEmitter();
-    const robotInstructionsList = [];
+    const END                 = 'END';
+    const messenger           = new EventEmitter();
+    let robotInstructionsList = [];
 
     if (Boolean(process.stdin.isTTY)) {  // ---> Interactive input
       const marsSize = await ask(rl, `What's the Mars size? (w,h): `);
@@ -54,25 +54,7 @@ const Runner       = require('../runner');
         robotInstructionsList.push([robot, instructions]);
       }
     } else {  // ---> Reading from STDIN
-      const lines = fs.readFileSync(0)
-        .toString()
-        .split('\n')
-        .filter(line => line.trim() != '');
-
-      const [ marsSize, ...robotsData ] = lines;
-
-      const [w, h] = marsSize.split(' ').map(Number);
-      const mars   = new Mars({ w, h, messenger });
-
-      let robot;
-
-      robotsData.forEach((robotDataLine, i) => {
-        if ((i % 2) !== 0) {
-          robotInstructionsList.push([robot, new Instructions(robotDataLine)]);
-        } else {
-          robot = new Robot(robotDataLine, messenger);
-        }
-      });
+      robotInstructionsList = Runner.getRobotInstructions(fs.readFileSync(0), messenger).robotInstructionsList;
     }
 
     if (argv.detailed) {
@@ -95,14 +77,12 @@ const Runner       = require('../runner');
       });
     }
 
-    console.log('');
-    for (let item of robotInstructionsList) {
-      const [robot, instructions] = item;
-
-      await robot.move(instructions);
-
+    messenger.on(events.MOVEMENTS_FINISHED, (robot) => {
       console.log(chalk.green(robot.toString()));
-    }
+    });
+
+    console.log('');
+    await Runner.run(robotInstructionsList, 0);
     console.log('');
 
     rl.close();

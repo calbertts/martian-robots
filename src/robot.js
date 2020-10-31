@@ -2,23 +2,21 @@ const { once, EventEmitter } = require('events');
 const events                 = require('./events')
 
 class Robot {
-  messenger
-  isLost = false;
-
   constructor(robotInfo, messenger) {
     const { x, y, orientation } = this._getParts(robotInfo);
 
     this.x           = Number(x);
     this.y           = Number(y);
     this.orientation = orientation;
-    this.messenger  = messenger;
+    this.messenger   = messenger;
+    this.isLost      = false;
   }
 
   _getParts(robotInfo) {
     const MAX_COORDINATE = 50;
     const VALID_ORIENTATIONS = 'NSEW';
 
-    let [x, y, orientation] = robotInfo.split(' ');
+    let [x, y, orientation] = robotInfo.trim().split(' ');
 
     x = Number(x);
     y = Number(y);
@@ -66,7 +64,7 @@ class Robot {
       this.messenger.emit(events.MOVED, {x: this.x, y: this.y, orientation: this.orientation});
     }
 
-    this.messenger.emit(events.MOVEMENTS_FINISHED);
+    this.messenger.emit(events.MOVEMENTS_FINISHED, this);
   }
 
   async _canIMove(possibleMovement) {
