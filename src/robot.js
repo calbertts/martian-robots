@@ -32,10 +32,14 @@ class Robot {
     return { x, y, orientation };
   }
 
-  async move(instructions) {
+  async move(instructions, delay = 0) {
     const movements = instructions.getMovements(this.orientation);
 
     for (let move of movements) {
+      await new Promise((resolve) => {
+        setTimeout(resolve, delay);
+      });
+      
       if (this.isLost) {
         break;
       }
@@ -58,6 +62,8 @@ class Robot {
       this.x           = possibleMovement.x;
       this.y           = possibleMovement.y;
       this.orientation = move.o;
+
+      this.messenger.emit(events.MOVED, {x: this.x, y: this.y, orientation: this.orientation});
     }
 
     this.messenger.emit(events.MOVEMENTS_FINISHED);
