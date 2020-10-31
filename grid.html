@@ -1,0 +1,108 @@
+<html>
+<head>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+<div id="grid"></div>
+<script>
+  function gridData() {
+    var data = new Array();
+    var xpos = 1;
+    var ypos = 1;
+    var maxWidth = 5 + 3;
+    var maxHeight = 3 + 3;
+    console.log(maxWidth, maxHeight)
+    var width = (600 / maxWidth);
+    var height = (600 / maxHeight);
+    var click = 0;
+
+    const robots = [
+      {x: 1, y: 1, o: 'E'},
+      {x: 3, y: 2, o: 'N'},
+      {x: 0, y: 3, o: 'W'},
+    ];
+
+    const arrows = { // ⇠ ⇢ ⇣ ↗ ↖ ↘ ↙
+      S: '⇣',
+      N: '⇡',
+      W: '⇠',
+      E: '⇢',
+    };
+    
+    for (var row = 0; row < maxHeight; row++) {
+      data.push( new Array() );
+      
+      for (var column = 0; column < maxWidth; column++) {
+        const robot = robots.find(r => r.x === (column-1) && r.y === (row-1));
+        data[row].push({
+          x: xpos,
+          y: ypos,
+          column,
+          row,
+          width: width,
+          height: height,
+          click: click,
+          text: robot ? arrows[robot.o] : '',
+        })
+        xpos += width;
+      }
+      xpos = 1;
+      ypos += height;	
+    }
+    return data;
+  }
+
+  function isOutside(d) {
+    return d.column === 0 || d.row === 0 || d.column === gridData[0].length-1 || d.row === gridData.length-1;
+  }
+
+  var gridData = gridData();
+
+  var grid = d3.select("#grid")
+    .append("svg")
+    .attr("width","620px")
+    .attr("height","620px");
+    
+  var row = grid.selectAll(".row")
+    .data(gridData)
+    .enter().append("g")
+    .attr("class", "row");
+    
+  const group = row.selectAll(".square")
+    .data(function(d) { return d; })
+    .enter()
+    .append("g");
+
+  group
+    .append("rect")
+    .attr("class","square")
+    .attr("x", function(d) { return d.x; })
+    .attr("y", function(d) { return d.y; })
+    .attr("width", function(d) { return d.width; })
+    .attr("height", function(d) { return d.height; })
+    .style("fill", function(d) {
+      if(isOutside(d))
+        return "#ddd"
+      else {
+        return "#fff"
+      }
+    })
+    .style("stroke", "#222");
+
+  group
+    .append("text")
+    .text((d) => {
+      return d.text
+    })
+    .attr("x", function(d) { return d.x + (d.width/2) - 5; })
+    .attr("y", function(d) { return d.y + (d.height/2) + 5; })
+    .on('click', function(d) {
+       d.click ++;
+       if ((d.click)%4 == 0 ) { d3.select(this).style("fill","#fff"); }
+       if ((d.click)%4 == 1 ) { d3.select(this).style("fill","#2C93E8"); }
+       if ((d.click)%4 == 2 ) { d3.select(this).style("fill","#F56C4E"); }
+       if ((d.click)%4 == 3 ) { d3.select(this).style("fill","#838690"); }
+      });
+</script>
+</body>
+</html>

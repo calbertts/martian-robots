@@ -3,13 +3,17 @@ const bodyParser       = require('body-parser')
 const { EventEmitter } = require('events');
 
 const events           = require('../events');
+const Runner           = require('../runner');
 const { Mars }         = require('../mars');
 const { Robot }        = require('../robot');
 const { Instructions } = require('../instructions');
 
 const app       = express()
 const port      = 3000
-const messenger = new EventEmitter();
+
+let messenger;
+let mars;
+let robotInstructionsList;
 
 app.use(bodyParser.json());
 app.use('/', express.static(__dirname + '/public'));
@@ -19,51 +23,53 @@ app.get('/', (req, res) => {
 })
 
 app.post('/start', async (req, res) => {
-  res.end()
+  const {delay, fileContent} = req.body;
 
-  const mars = new Mars({ w: 5, h: 3, messenger });
+  messenger = new EventEmitter();
 
-  const robot = new Robot('1 1 E', messenger);
-  await robot.move(new Instructions('RFRFRFRF'));
-  console.log(robot.toString())
+  try {
+    ({ mars, robotInstructionsList } = Runner.getRobotInstructions(fileContent, messenger));
 
-  const robot2 = new Robot('3 2 N', messenger);
-  await robot2.move(new Instructions('FRRFLLFFRRFLL'));
-  console.log(robot2.toString())
+    res.json({
+      mars,
+      robots: robotInstructionsList.map(rI => rI[0])
+    });
 
-  const robot3 = new Robot('0 3 W', messenger);
-  await robot3.move(new Instructions('LLFFFLFLFL'));
-  console.log(robot3.toString())
+    await Runner.run(robotInstructionsList, delay);
+  } catch(err) {
+    res.status(400).json({message: err.toString()});
+  }
 })
 
 app.get('/events', async function(req, res) {
-  console.log('Got /events');
   res.set({
     'Cache-Control': 'no-cache',
-    'Content-Type': 'text/event-stream',
-    'Connection': 'keep-alive'
+    'Content-Type':  'text/event-stream',
+    'Connection':    'keep-alive'
   });
   res.flushHeaders();
 
   res.write('retry: 10000\n\n');
-  let count = 0;
 
-  messenger.on(events.IM_LOST, ({x, y}) => {
-    res.write(`data: Robot lost at (${x}, ${y})\n\n`);
+  messenger.on(events.IM_LOST, (coords) => {
+    res.write(`event: ${events.IM_LOST}\ndata: ${JSON.stringify(coords)}\n\n`);
   });
 
-  messenger.on(events.TRY_MOVE, ({x, y}) => {
-    res.write(`data: Trying to move to (${x}, ${y})\n\n`);
+  messenger.on(events.TRY_MOVE, (coords) => {
+    res.write(`event: ${events.TRY_MOVE}\ndata: ${JSON.stringify(coords)}\n\n`);
   });
 
-  messenger.on(events.MOVE_FEEDBACK, ({shouldLost, shouldSkip}) => {
-    if (shouldSkip) {
-      res.write(`data: Skiping a scent! :)\n\n`);
-    }
+  messenger.on(events.MOVED, (moveInfo) => {
+    res.write(`event: ${events.MOVED}\ndata: ${JSON.stringify(robotInstructionsList.map(rI => rI[0]))}\n\n`);
+  });
+
+  messenger.on(events.MOVE_FEEDBACK, (feedback) => {
+    res.write(`event: ${events.MOVE_FEEDBACK}\ndata: ${JSON.stringify(feedback)}\n\n`);
   });
 
   messenger.on(events.MOVEMENTS_FINISHED, () => {
-    res.write(`data: Robot movements finished.\n\n\n`);
+    const results = JSON.stringify(robotInstructionsList.map(rI => rI[0]).map(r => r.toString()))
+    res.write(`event: ${events.MOVEMENTS_FINISHED}\ndata: ${results}\n\n\n`);
   });
 });
 

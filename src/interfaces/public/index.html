@@ -1,45 +1,72 @@
 <html>
   <head>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="app.js"></script>
     <style>
-      .content {
-
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #eaeaea;
       }
+
+      .grid-container {
+        display: grid;
+        grid-template-areas:
+          "top"
+          "bottom";
+      }
+
+      .top {
+        display: grid;
+        grid-template-areas: "input graph";
+      }
+
+      .instructions {
+        padding: 20px;
+        height: 100%;
+        width: 420px;
+        color: #166f16;
+        font-size: 18px;
+      }
+
+      .bottom {
+        display: grid;
+        grid-template-columns: 0.1fr 1fr;
+        grid-template-areas: "logs button";
+      }
+
+      .grid {
+        min-height: 622px;
+        min-width: 622px;
+        padding: 0 0 15px 15px;
+        border: 1px solid #aaa;
+        background-color: #fff;
+      }
+
+      .logs {
+        padding: 20px;
+        width: 420px;
+        color: #3232a2;
+        font-size: 12px;
+      }
+
+      button {
+        font-size: 25px;
+      }
+
     </style>
-    <script type="text/javascript">
-      function start() {
-        const source = new EventSource('/events');
-
-        source.addEventListener('message', message => {
-          console.log('Got', message);
-
-          // Display the event data in the `content` div
-          document.querySelector('#logs').innerHTML += event.data + '\n';
-        });
-
-        setTimeout(() => {
-          var url = '/start';
-          var data = {username: 'example'};
-
-          fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers:{
-              'Content-Type': 'application/json'
-            }
-          }).then(res => res.json())
-          .catch(error => console.error('Error:', error))
-          .then(response => console.log('Success:', response));
-        }, 500)
-      }
-    </script>
   </head>
   <body>
-    <div class="content">
-      <textarea name="textarea" rows="10" cols="50" placeholder="Enter the instructions here"></textarea>
-    </div>
-    <div class="logger">
-      <textarea id="logs" rows="10" cols="50" readonly placeholder="Log events"></textarea>
-    </div>
+<div class="grid-container">
+  <div class="top">
+    <textarea class="instructions" rows="10" cols="50" placeholder="Enter the instructions here"></textarea>
+    <div class="grid"></div>
+  </div>
+  <div class="bottom">
+    <textarea class="logs" rows="10" cols="50" readonly placeholder="Log events"></textarea>
     <button onclick="start()">START</button>
+  </div>
+</div>
   </body>
 </html>
