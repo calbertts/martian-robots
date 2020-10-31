@@ -1,7 +1,7 @@
 const expect                 = require('chai').expect
 const sinon                  = require('sinon');
 const { once, EventEmitter } = require('events');
-const { Robot }              = require('../src/robot');
+const Robot                  = require('../src/robot');
 const events                 = require('../src/events')
 
 describe('Robot Tests Suite', () => {

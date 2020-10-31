@@ -3,10 +3,11 @@ const fs               = require('fs');
 const readline         = require('readline');
 const chalk            = require('chalk');
 
-const events           = require('../events');
-const { Mars }         = require('../mars');
-const { Robot }        = require('../robot');
-const { Instructions } = require('../instructions');
+const events       = require('../events');
+const Mars         = require('../mars');
+const Robot        = require('../robot');
+const Instructions = require('../instructions');
+const Runner       = require('../runner');
 
 (async () => {
   const argv = require('minimist')(process.argv.slice(2));

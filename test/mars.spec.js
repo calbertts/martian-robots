@@ -1,6 +1,6 @@
 const expect                 = require('chai').expect
 const { once, EventEmitter } = require('events');
-const { Mars }               = require('../src/mars');
+const Mars                   = require('../src/mars');
 const events                 = require('../src/events')
 
 describe('Mars Tests Suite', () => {

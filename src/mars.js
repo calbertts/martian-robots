@@ -46,5 +46,5 @@ class Mars {
   }
 }
 
-module.exports.Mars = Mars;
+module.exports = Mars;
 

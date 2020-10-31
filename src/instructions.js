@@ -42,5 +42,5 @@ class Instructions {
   }
 }
 
-module.exports.Instructions = Instructions;
+module.exports = Instructions;
 

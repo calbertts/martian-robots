@@ -89,5 +89,5 @@ class Robot {
   }
 }
 
-module.exports.Robot = Robot;
+module.exports = Robot;
 
