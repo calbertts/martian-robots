@@ -23,7 +23,7 @@ class Instructions {
   
   constructor(instructionsInfo) {
     if (instructionsInfo.replace(/L|F|R/g, '').length > 0 || instructionsInfo.length > this.MAX_INSTRUCTIONS) {
-      throw new Error('Wrong instruction syntax, should be L, R or F and less than 100 chars')
+      throw new Error(`Wrong instruction syntax, should be L, R or F and less than 100 chars, actual: ${instructionsInfo}`)
     }
 
     this.instructionsInfo = instructionsInfo;
