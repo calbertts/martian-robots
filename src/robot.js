@@ -1,5 +1,5 @@
 const { once, EventEmitter } = require('events');
-const events                 = require('./events')
+const events                 = require('./events');
 
 class Robot {
   constructor(robotInfo, messenger) {
@@ -21,10 +21,10 @@ class Robot {
     x = Number(x);
     y = Number(y);
 
-    if (x === NaN || x > MAX_COORDINATE || 
-        y === NaN || y > MAX_COORDINATE || 
+    if (isNaN(x) || x > MAX_COORDINATE || 
+        isNaN(y) || y > MAX_COORDINATE || 
         !VALID_ORIENTATIONS.includes(orientation)) {
-      throw new Error(`Bad Robot Syntax => expected: [Number < 50] [Number < 50] [String (NSEW)], actual: ${robotInfo}`)
+      throw new Error(`Bad Robot Syntax => expected: [Number < 50] [Number < 50] [String (NSEW)], actual: ${robotInfo}`);
     }
 
     return { x, y, orientation };
@@ -44,7 +44,7 @@ class Robot {
 
       const possibleMovement = {
         x: this.x + move.x,
-        y: this.y + move.y
+        y: this.y + move.y,
       };
 
       const [{shouldLost, shouldSkip}] = await this._canIMove(possibleMovement);

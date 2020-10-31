@@ -1,8 +1,8 @@
-const expect                 = require('chai').expect
+const expect                 = require('chai').expect;
 const sinon                  = require('sinon');
 const { once, EventEmitter } = require('events');
 const Robot                  = require('../src/robot');
-const events                 = require('../src/events')
+const events                 = require('../src/events');
 
 describe('Robot Tests Suite', () => {
   const messenger = new EventEmitter();
@@ -19,7 +19,7 @@ describe('Robot Tests Suite', () => {
     expect(() => {
       new Robot('51 1 S', messenger);
     }).to.throw();
-  })
+  });
 
   it('should give movement feedback', async () => {
     const robot = new Robot('1 1 E', messenger);
@@ -64,7 +64,7 @@ describe('Robot Tests Suite', () => {
     it('should pass with no movements', async () => {
       const robot = new Robot('3 1 E', messenger);
       const instructions = {
-        getMovements: sinon.fake.returns([])
+        getMovements: sinon.fake.returns([]),
       };
 
       robot.move(instructions);
@@ -78,10 +78,10 @@ describe('Robot Tests Suite', () => {
       const instructions = {
         getMovements: sinon.fake.returns([
           { o: 'S', x: 0, y: 0, command: 'R' },
-        ])
+        ]),
       };
       sinon.replace(robot, '_canIMove', sinon.fake.returns([
-        {shouldLost: false, shouldSkip: false}
+        {shouldLost: false, shouldSkip: false},
       ]));
 
       await robot.move(instructions);
@@ -97,10 +97,10 @@ describe('Robot Tests Suite', () => {
       const instructions = {
         getMovements: sinon.fake.returns([
           { o: 'E', x: 1, y: 0, command: 'F' },
-        ])
+        ]),
       };
       sinon.replace(robot, '_canIMove', sinon.fake.returns([
-        {shouldLost: false, shouldSkip: false}
+        {shouldLost: false, shouldSkip: false},
       ]));
 
       await robot.move(instructions);
@@ -117,10 +117,10 @@ describe('Robot Tests Suite', () => {
         getMovements: sinon.fake.returns([
           { o: 'E', x: 1, y: 0, command: 'F' },
           { o: 'S', x: 0, y: 0, command: 'R' },
-        ])
+        ]),
       };
       sinon.replace(robot, '_canIMove', sinon.fake.returns([
-        {shouldLost: true, shouldSkip: false}
+        {shouldLost: true, shouldSkip: false},
       ]));
 
       await robot.move(instructions);
@@ -139,10 +139,10 @@ describe('Robot Tests Suite', () => {
         getMovements: sinon.fake.returns([
           { o: 'E', x: 1, y: 0, command: 'F' },
           { o: 'E', x: 1, y: 0, command: 'F' },
-        ])
+        ]),
       };
       sinon.replace(robot, '_canIMove', sinon.fake.returns([
-        {shouldLost: false, shouldSkip: true}
+        {shouldLost: false, shouldSkip: true},
       ]));
 
       await robot.move(instructions);
@@ -153,6 +153,6 @@ describe('Robot Tests Suite', () => {
       expect(robot.y).to.be.equal(1);
       expect(robot.toString()).to.be.equal('3 1 E');
     });
-  })
+  });
 });
 

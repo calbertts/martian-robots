@@ -2,7 +2,7 @@ const events = require('./events');
 
 class Mars {
   constructor({w, h, messenger}) {
-    if (isNaN(w) || isNaN(h) || Number(w) <= 0 || Number(h) <= 0) {
+    if (isNaN(w) || isNaN(h) || Number(w) <= 0 || Number(h) <= 0) {
       throw new Error(`Mars size must be positive numbers like (w, h): 4 5, actual: "${w} ${h}"`);
     }
 
@@ -37,7 +37,7 @@ class Mars {
 
   _isAScent(possibleMovement) {
     return !!this.scents.find(robotScent => 
-      robotScent.x === possibleMovement.x && robotScent.y === possibleMovement.y
+      robotScent.x === possibleMovement.x && robotScent.y === possibleMovement.y,
     );
   }
 

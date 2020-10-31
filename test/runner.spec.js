@@ -1,9 +1,9 @@
-const expect                 = require('chai').expect
+const expect                 = require('chai').expect;
 const sinon                  = require('sinon');
 const { once, EventEmitter } = require('events');
 const Runner                 = require('../src/runner');
 const Robot                  = require('../src/robot');
-const events                 = require('../src/events')
+const events                 = require('../src/events');
 
 describe('Runner Tests Suite', () => {
   const messenger = new EventEmitter();
@@ -19,7 +19,7 @@ describe('Runner Tests Suite', () => {
     const { mars, robotInstructionsList } = Runner.getRobotInstructions(content, messenger);
 
     expect(mars).to.include({ maxX: 6, maxY: 4 });
-    expect(robotInstructionsList.length).to.be.equal(3)
+    expect(robotInstructionsList.length).to.be.equal(3);
 
     // Robot 1
     expect(robotInstructionsList[0][0]).to.deep.include({x: 1, y: 1});
@@ -32,7 +32,7 @@ describe('Runner Tests Suite', () => {
     // Robot 3
     expect(robotInstructionsList[2][0]).to.deep.include({x: 0, y: 3});
     expect(robotInstructionsList[2][1]).to.deep.include({instructionsInfo: 'LLFFFLFLFL'});
-  })
+  });
 
   it('should run the instructions and emit the corresponding events', async () => {
     const { mars, robotInstructionsList } = Runner.getRobotInstructions(content, messenger);

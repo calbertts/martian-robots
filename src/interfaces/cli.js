@@ -17,13 +17,13 @@ const Runner       = require('../runner');
       rl.question(question, input => {
         resolve(input);
       });
-    })
+    });
   }
 
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
-    terminal: true
+    terminal: true,
   });
 
   try {
@@ -31,11 +31,11 @@ const Runner       = require('../runner');
     const messenger           = new EventEmitter();
     let robotInstructionsList = [];
 
-    if (Boolean(process.stdin.isTTY)) {  // ---> Interactive input
+    if (process.stdin.isTTY) {  // ---> Interactive input
       const marsSize = await ask(rl, `What's the Mars size? (w,h): `);
 
       const [w, h] = marsSize.split(' ').map(Number);
-      const mars   = new Mars({ w, h, messenger });
+      new Mars({ w, h, messenger });
 
       let robotCoords = '';
 
@@ -68,12 +68,12 @@ const Runner       = require('../runner');
 
       messenger.on(events.MOVE_FEEDBACK, ({shouldLost, shouldSkip}) => {
         if (shouldSkip) {
-          console.log(chalk.green.bold('Skiping a scent! :)'))
+          console.log(chalk.green.bold('Skiping a scent! :)'));
         }
       });
 
       messenger.on(events.MOVEMENTS_FINISHED, () => {
-        console.log(chalk.green.yellow.bold('Robot movements finished!'))
+        console.log(chalk.green.yellow.bold('Robot movements finished!'));
       });
     }
 

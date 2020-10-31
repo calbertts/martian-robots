@@ -1,5 +1,5 @@
-const express          = require('express')
-const bodyParser       = require('body-parser')
+const express          = require('express');
+const bodyParser       = require('body-parser');
 const { EventEmitter } = require('events');
 
 const events           = require('../events');
@@ -8,8 +8,8 @@ const { Mars }         = require('../mars');
 const { Robot }        = require('../robot');
 const { Instructions } = require('../instructions');
 
-const app       = express()
-const port      = 3000
+const app  = express();
+const port = 3000;
 
 let messenger;
 let mars;
@@ -20,7 +20,7 @@ app.use('/', express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
   res.render('index');
-})
+});
 
 app.post('/start', async (req, res) => {
   const {delay, fileContent} = req.body;
@@ -32,20 +32,20 @@ app.post('/start', async (req, res) => {
 
     res.json({
       mars,
-      robots: robotInstructionsList.map(rI => rI[0])
+      robots: robotInstructionsList.map(rI => rI[0]),
     });
 
     await Runner.run(robotInstructionsList, delay);
   } catch(err) {
     res.status(400).json({message: err.toString()});
   }
-})
+});
 
 app.get('/events', async function(req, res) {
   res.set({
     'Cache-Control': 'no-cache',
     'Content-Type':  'text/event-stream',
-    'Connection':    'keep-alive'
+    'Connection':    'keep-alive',
   });
   res.flushHeaders();
 
@@ -68,11 +68,11 @@ app.get('/events', async function(req, res) {
   });
 
   messenger.on(events.MOVEMENTS_FINISHED, () => {
-    const results = JSON.stringify(robotInstructionsList.map(rI => rI[0]).map(r => r.toString()))
+    const results = JSON.stringify(robotInstructionsList.map(rI => rI[0]).map(r => r.toString()));
     res.write(`event: ${events.MOVEMENTS_FINISHED}\ndata: ${results}\n\n\n`);
   });
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+  console.log(`Example app listening at http://localhost:${port}`);
+});

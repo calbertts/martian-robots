@@ -3,7 +3,7 @@ const events = Object.freeze({
   MOVED:              'MOVED',
   IM_LOST:            'IM_LOST',
   MOVE_FEEDBACK:      'MOVE_FEEDBACK',
-  MOVEMENTS_FINISHED: 'MOVEMENTS_FINISHED'
+  MOVEMENTS_FINISHED: 'MOVEMENTS_FINISHED',
 });
 
 function log(msg) {
@@ -35,13 +35,13 @@ function start() {
     const instructions = document.querySelector('.instructions').value;
 
     if (instructions.trim() === '') {
-      alert('Enter the instructions!')
+      alert('Enter the instructions!');
       return;
     }
 
     const data = {
       delay:       500,
-      fileContent: instructions 
+      fileContent: instructions, 
     };
 
     try {
@@ -49,8 +49,8 @@ function start() {
         method:  'POST',
         body:    JSON.stringify(data),
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       });
 
       if (response.status !== 200) {
@@ -97,7 +97,7 @@ function gridData(mars, robots) {
         text:   robot ? arrows[robot.orientation] : '',
         column,
         row,
-      })
+      });
       xpos += width;
     }
     xpos = 1;
@@ -135,9 +135,9 @@ function draw(gridData) {
     .attr('height',  (d) => d.height)
     .style('fill',   (d) => {
       if (isOutside(d, gridData)) {
-        return d.isLost ? '#e4c6c6' : '#ddd'
+        return d.isLost ? '#e4c6c6' : '#ddd';
       } else {
-        return '#fff'
+        return '#fff';
       }
     })
     .style('stroke', '#222');
@@ -146,7 +146,7 @@ function draw(gridData) {
     .append('text')
     .attr('x', (d) => d.x + (d.width/2) - 5)
     .attr('y', (d) => d.y + (d.height/2) + 5)
-    .text((d) => d.text)
+    .text((d) => d.text);
 
-  grid.attr('transform', 'scale(1, -1)')
+  grid.attr('transform', 'scale(1, -1)');
 }

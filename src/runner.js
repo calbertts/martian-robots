@@ -8,7 +8,7 @@ class Runner {
     const lines = content
       .toString()
       .split('\n')
-      .filter(line => line.trim() != '');
+      .filter(line => line.trim() !== '');
 
     const [ marsSize, ...robotsData ] = lines;
 

@@ -1,7 +1,7 @@
-const expect                 = require('chai').expect
+const expect                 = require('chai').expect;
 const { once, EventEmitter } = require('events');
 const Mars                   = require('../src/mars');
-const events                 = require('../src/events')
+const events                 = require('../src/events');
 
 describe('Mars Tests Suite', () => {
   const messenger = new EventEmitter();
@@ -15,14 +15,14 @@ describe('Mars Tests Suite', () => {
     expect(() => {
       new Mars({w: -1, x: 0}, messenger);
     }).to.throw();
-  })
+  });
 
   it ('should try movement without lose it', async () => {
     process.nextTick(() => {
       mars.tryMove({x: 1, y: 0});
     });
     
-    const [{shouldLost, shouldSkip}] = await once(messenger, events.MOVE_FEEDBACK)
+    const [{shouldLost, shouldSkip}] = await once(messenger, events.MOVE_FEEDBACK);
 
     expect(shouldLost).to.be.false;
     expect(shouldSkip).to.be.false;
@@ -33,7 +33,7 @@ describe('Mars Tests Suite', () => {
       mars.tryMove({x: 4, y: 5});
     });
     
-    const [{shouldLost, shouldSkip}] = await once(messenger, events.MOVE_FEEDBACK)
+    const [{shouldLost, shouldSkip}] = await once(messenger, events.MOVE_FEEDBACK);
 
     expect(shouldLost).to.be.true;
     expect(shouldSkip).to.be.false;
@@ -41,10 +41,10 @@ describe('Mars Tests Suite', () => {
 
   it('should try movement out of the edge (Y) without a scent', async () => {
     process.nextTick(() => {
-      mars.tryMove({x: 3, y: 6})
+      mars.tryMove({x: 3, y: 6});
     });
     
-    const [{shouldLost, shouldSkip}] = await once(messenger, events.MOVE_FEEDBACK)
+    const [{shouldLost, shouldSkip}] = await once(messenger, events.MOVE_FEEDBACK);
 
     expect(shouldLost).to.be.true;
     expect(shouldSkip).to.be.false;
@@ -56,7 +56,7 @@ describe('Mars Tests Suite', () => {
       mars.tryMove({x: 3, y: 6});
     });
     
-    const [{shouldLost, shouldSkip}] = await once(messenger, 'MOVE_FEEDBACK')
+    const [{shouldLost, shouldSkip}] = await once(messenger, 'MOVE_FEEDBACK');
 
     expect(shouldLost).to.be.false;
     expect(shouldSkip).to.be.true;

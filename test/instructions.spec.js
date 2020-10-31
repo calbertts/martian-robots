@@ -1,4 +1,4 @@
-const expect       = require('chai').expect
+const expect       = require('chai').expect;
 const sinon        = require('sinon');
 const Instructions = require('../src/instructions');
 
@@ -21,7 +21,7 @@ describe('Instructions Tests Suite', () => {
     expect(movements).to.deep.equal([
       { o: 'E', x: 0, y: 0, command: 'R' },
       { o: 'E', x: 1, y: 0, command: 'F' },
-      { o: 'N', x: 0, y: 0, command: 'L' }
+      { o: 'N', x: 0, y: 0, command: 'L' },
     ]);
   });
 });

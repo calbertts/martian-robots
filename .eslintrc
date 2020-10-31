@@ -1,8 +1,20 @@
 {
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
   "extends": "imperative",
   "rules": {
     "comma-dangle": ["error", "always-multiline"],
     "indent": ["error", 2, { "ignoredNodes": ["ConditionalExpression"] }],
-    "semi": ["error", "always"]
+    "semi": ["error", "always"],
+    "no-unused-vars": "off",
+    "no-new": "off"
+  },
+  "globals": {
+    "EventSource": true,
+    "EventEmitter": true,
+    "alert": true,
+    "fetch": true,
+    "d3": true,
   }
 }
