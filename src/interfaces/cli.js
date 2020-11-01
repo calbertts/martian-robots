@@ -57,7 +57,7 @@ const Runner       = require('../runner');
       robotInstructionsList = Runner.getRobotInstructions(fs.readFileSync(0), messenger).robotInstructionsList;
     }
 
-    if (argv.detailed) {
+    if (process.env.DETAILED === "true" || argv.detailed) {
       messenger.on(events.IM_LOST, ({x, y}) => {
         console.log(`${chalk.red.bold('Robot lost at')} (${x},${y})`);
       });
