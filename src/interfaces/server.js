@@ -2,11 +2,11 @@ const express          = require('express');
 const bodyParser       = require('body-parser');
 const { EventEmitter } = require('events');
 
-const events           = require('../events');
-const Runner           = require('../runner');
-const { Mars }         = require('../mars');
-const { Robot }        = require('../robot');
-const { Instructions } = require('../instructions');
+const events           = require('../core/events');
+const Runner           = require('../core/runner');
+const { Mars }         = require('../core/mars');
+const { Robot }        = require('../core/robot');
+const { Instructions } = require('../core/instructions');
 
 const app  = express();
 const port = process.env.PORT || 5000;

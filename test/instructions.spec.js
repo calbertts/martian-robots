@@ -1,6 +1,6 @@
 const expect       = require('chai').expect;
 const sinon        = require('sinon');
-const Instructions = require('../src/instructions');
+const Instructions = require('../src/core/instructions');
 
 describe('Instructions Tests Suite', () => {
   it('should fail instruction creation because of bad syntax', () => {

@@ -1,8 +1,8 @@
 const expect                 = require('chai').expect;
 const sinon                  = require('sinon');
 const { once, EventEmitter } = require('events');
-const Robot                  = require('../src/robot');
-const events                 = require('../src/events');
+const Robot                  = require('../src/core/robot');
+const events                 = require('../src/core/events');
 
 describe('Robot Tests Suite', () => {
   const messenger = new EventEmitter();

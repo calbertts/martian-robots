@@ -1,5 +1,12 @@
 # Martian Robots
 
+Technical test for GuidSmiths
+
+There's a core and two interfaces (CLI and Web)
+
+## Architecture overview
+
+
 ## How to run as CLI tool
 
 ### Interactive input
