@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start-cli": "node src/interfaces/cli.js",
-    "start-server": "node src/interfaces/server.js",
+    "start": "node src/interfaces/server.js",
     "test": "nyc --reporter text-summary mocha ./test",
     "lint": "eslint .",
     "coverage": "nyc report --reporter lcov --reporter html"
