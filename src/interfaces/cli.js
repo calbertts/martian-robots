@@ -3,11 +3,11 @@ const fs               = require('fs');
 const readline         = require('readline');
 const chalk            = require('chalk');
 
-const events       = require('../events');
-const Mars         = require('../mars');
-const Robot        = require('../robot');
-const Instructions = require('../instructions');
-const Runner       = require('../runner');
+const events       = require('../core/events');
+const Mars         = require('../core/mars');
+const Robot        = require('../core/robot');
+const Instructions = require('../core/instructions');
+const Runner       = require('../core/runner');
 
 (async () => {
   const argv = require('minimist')(process.argv.slice(2));
@@ -82,7 +82,7 @@ const Runner       = require('../runner');
     });
 
     console.log('');
-    await Runner.run(robotInstructionsList, 0);
+    await Runner.run(robotInstructionsList);
     console.log('');
 
     rl.close();

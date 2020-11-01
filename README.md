@@ -45,3 +45,8 @@ node app/src/interfaces/server.js
 A public demo can be checkout here:
 https://calbertts-martian-robots.herokuapp.com/
 ![martian-robots-animation](martian-robots.gif)
+
+## How to build the Docker image
+```
+npm run build-docker-image
+```
