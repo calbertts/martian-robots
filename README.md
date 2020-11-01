@@ -2,10 +2,11 @@
 
 Technical test for GuidSmiths
 
-There's a core and two interfaces (CLI and Web)
+There's a core and two interfaces (CLI and Web).
 
 ## Architecture overview
 
+![martian-robots-arch](martian-robots-arch.png)
 
 ## How to run as CLI tool
 
