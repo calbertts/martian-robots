@@ -9,7 +9,7 @@ const { Robot }        = require('../robot');
 const { Instructions } = require('../instructions');
 
 const app  = express();
-const port = 3000;
+const port = process.env.PORT || 5000;
 
 let messenger;
 let mars;
