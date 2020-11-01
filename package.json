@@ -6,7 +6,7 @@
   "scripts": {
     "start-cli": "node src/interfaces/cli.js",
     "start": "node src/interfaces/server.js",
-    "test": "nyc --reporter text-summary mocha ./test",
+    "test": "node node_modules/nyc/bin/nyc --reporter text-summary node_modules/mocha/bin/mocha ./test",
     "lint": "eslint .",
     "coverage": "nyc report --reporter lcov --reporter html"
   },
