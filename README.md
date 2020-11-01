@@ -33,3 +33,9 @@ docker run -i --rm -e DETAILED="true" calbertts/martian-robots:v1 < inputFile
 cat inputFile | docker run -i --rm calbertts/martian-robots:v1
 ```
 
+## How to run as a web server with an UI locally
+```
+node app/src/interfaces/server.js
+```
+
+### Public demo here: 

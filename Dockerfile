@@ -4,6 +4,5 @@ RUN mkdir app
 COPY node_modules app/node_modules
 COPY src app/src 
 
-CMD [ "node", "app/src/interfaces/cli.js" ]
-
+CMD node app/src/interfaces/cli.js
 
