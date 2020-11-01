@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build-docker-image": "docker build -t calbertts/martian-robots:v1 .",
     "start-cli": "node src/interfaces/cli.js",
     "start": "node src/interfaces/server.js",
     "test": "node node_modules/nyc/bin/nyc --reporter text-summary node_modules/mocha/bin/mocha ./test",
