@@ -3,7 +3,7 @@ name: Tests
 on: push
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -11,3 +11,19 @@ jobs:
         with:
           node-version: 15
       - run: npm install && npm test
+
+  coverage:
+    needs: [ test ]
+    name: coverage
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-node@master
+      with:
+        node-version: '12'
+    - run: npm install
+    - uses: paambaati/codeclimate-action@v2.2.4
+      env:
+        CC_TEST_REPORTER_ID: b397f572d2680ae51ba1116f4162999fec07b220b9d8abd0c408d01276c7a57f
+      with:
+        coverageCommand: npm run coverage
