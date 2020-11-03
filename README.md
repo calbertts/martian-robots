@@ -1,6 +1,5 @@
 # Martian Robots
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/e88967b069c4f01dece8/maintainability)](https://codeclimate.com/github/calbertts/martian-robots/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e88967b069c4f01dece8/test_coverage)](https://codeclimate.com/github/calbertts/martian-robots/test_coverage)
 
 Technical test for GuidSmiths
